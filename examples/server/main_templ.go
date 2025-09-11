@@ -12,7 +12,7 @@ import (
 	"github.com/go-sonr/ui/components/button"
 	"github.com/go-sonr/ui/components/card"
 	"github.com/go-sonr/ui/components/input"
-	"github.com/go-sonr/ui/layout"
+	ui "github.com/go-sonr/ui/layout"
 )
 
 func HomePage() templ.Component {
@@ -66,7 +66,7 @@ func HomePage() templ.Component {
 				}
 				return nil
 			})
-			templ_7745c5c3_Err = layout.Head().Render(templ.WithChildren(ctx, templ_7745c5c3_Var3), templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = ui.Head().Render(templ.WithChildren(ctx, templ_7745c5c3_Var3), templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -140,13 +140,13 @@ func HomePage() templ.Component {
 								}
 								return nil
 							})
-							templ_7745c5c3_Err = card.CardTitle(&card.CardTitleProps{}).Render(templ.WithChildren(ctx, templ_7745c5c3_Var8), templ_7745c5c3_Buffer)
+							templ_7745c5c3_Err = card.Title(card.TitleProps{}).Render(templ.WithChildren(ctx, templ_7745c5c3_Var8), templ_7745c5c3_Buffer)
 							if templ_7745c5c3_Err != nil {
 								return templ_7745c5c3_Err
 							}
 							return nil
 						})
-						templ_7745c5c3_Err = card.CardHeader(&card.CardHeaderProps{}).Render(templ.WithChildren(ctx, templ_7745c5c3_Var7), templ_7745c5c3_Buffer)
+						templ_7745c5c3_Err = card.Header(card.HeaderProps{}).Render(templ.WithChildren(ctx, templ_7745c5c3_Var7), templ_7745c5c3_Buffer)
 						if templ_7745c5c3_Err != nil {
 							return templ_7745c5c3_Err
 						}
@@ -170,16 +170,16 @@ func HomePage() templ.Component {
 							if templ_7745c5c3_Err != nil {
 								return templ_7745c5c3_Err
 							}
-							templ_7745c5c3_Err = input.Input(&input.InputProps{
-								Type:        "text",
+							templ_7745c5c3_Err = input.Input(input.Props{
+								Type:        input.TypeText,
 								Placeholder: "Enter your name",
 								Name:        "name",
 							}).Render(ctx, templ_7745c5c3_Buffer)
 							if templ_7745c5c3_Err != nil {
 								return templ_7745c5c3_Err
 							}
-							templ_7745c5c3_Err = input.Input(&input.InputProps{
-								Type:        "email",
+							templ_7745c5c3_Err = input.Input(input.Props{
+								Type:        input.TypeEmail,
 								Placeholder: "Enter your email",
 								Name:        "email",
 							}).Render(ctx, templ_7745c5c3_Buffer)
@@ -204,7 +204,7 @@ func HomePage() templ.Component {
 								}
 								return nil
 							})
-							templ_7745c5c3_Err = button.Button(&button.ButtonProps{
+							templ_7745c5c3_Err = button.Button(button.Props{
 								Variant: button.VariantDefault,
 								Type:    button.TypeSubmit,
 							}).Render(templ.WithChildren(ctx, templ_7745c5c3_Var10), templ_7745c5c3_Buffer)
@@ -217,13 +217,13 @@ func HomePage() templ.Component {
 							}
 							return nil
 						})
-						templ_7745c5c3_Err = card.CardContent(&card.CardContentProps{}).Render(templ.WithChildren(ctx, templ_7745c5c3_Var9), templ_7745c5c3_Buffer)
+						templ_7745c5c3_Err = card.Content(card.ContentProps{}).Render(templ.WithChildren(ctx, templ_7745c5c3_Var9), templ_7745c5c3_Buffer)
 						if templ_7745c5c3_Err != nil {
 							return templ_7745c5c3_Err
 						}
 						return nil
 					})
-					templ_7745c5c3_Err = card.Card(&card.CardProps{
+					templ_7745c5c3_Err = card.Card(card.Props{
 						Class: "w-full max-w-md",
 					}).Render(templ.WithChildren(ctx, templ_7745c5c3_Var6), templ_7745c5c3_Buffer)
 					if templ_7745c5c3_Err != nil {
@@ -231,19 +231,19 @@ func HomePage() templ.Component {
 					}
 					return nil
 				})
-				templ_7745c5c3_Err = layout.Container().Render(templ.WithChildren(ctx, templ_7745c5c3_Var5), templ_7745c5c3_Buffer)
+				templ_7745c5c3_Err = ui.Container().Render(templ.WithChildren(ctx, templ_7745c5c3_Var5), templ_7745c5c3_Buffer)
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
 				return nil
 			})
-			templ_7745c5c3_Err = layout.Body().Render(templ.WithChildren(ctx, templ_7745c5c3_Var4), templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = ui.Body().Render(templ.WithChildren(ctx, templ_7745c5c3_Var4), templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			return nil
 		})
-		templ_7745c5c3_Err = layout.HTML().Render(templ.WithChildren(ctx, templ_7745c5c3_Var2), templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = ui.HTML().Render(templ.WithChildren(ctx, templ_7745c5c3_Var2), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

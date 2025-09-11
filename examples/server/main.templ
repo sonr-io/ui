@@ -1,19 +1,19 @@
 package main
 
 import (
-	"github.com/go-sonr/ui/layout"
+	ui "github.com/go-sonr/ui/layout"
 	"github.com/go-sonr/ui/components/button"
 	"github.com/go-sonr/ui/components/card"
 	"github.com/go-sonr/ui/components/input"
 )
 
 templ HomePage() {
-	@layout.HTML() {
-		@layout.Head() {
+	@ui.HTML() {
+		@ui.Head() {
 			<title>UI Example</title>
 		}
-		@layout.Body() {
-			@layout.Container() {
+		@ui.Body() {
+			@ui.Container() {
 				@card.Card(card.Props{
 					Class: "w-full max-w-md",
 				}) {
