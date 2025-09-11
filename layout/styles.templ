@@ -1,0 +1,16 @@
+package ui
+
+// DefaultStyles is a component that renders default styles
+templ DefaultStyles() {
+	<style>
+		[data-theme="light"] {
+			color-scheme: light;
+		}
+		[data-theme="dark"] {
+			color-scheme: dark;
+		}
+		* {
+			border-color: hsl(240 3.8% 46.1% / 0.2);
+		}
+	</style>
+}

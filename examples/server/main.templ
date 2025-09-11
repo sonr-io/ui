@@ -1,0 +1,49 @@
+package main
+
+import (
+	ui "github.com/go-sonr/ui/layout"
+	"github.com/go-sonr/ui/components/button"
+	"github.com/go-sonr/ui/components/card"
+	"github.com/go-sonr/ui/components/input"
+)
+
+templ HomePage() {
+	@ui.HTML() {
+		@ui.Head() {
+			<title>UI Example</title>
+		}
+		@ui.Body() {
+			@ui.Container() {
+				@card.Card(card.Props{
+					Class: "w-full max-w-md",
+				}) {
+					@card.Header(card.HeaderProps{}) {
+						@card.Title(card.TitleProps{}) {
+							Example Form
+						}
+					}
+					@card.Content(card.ContentProps{}) {
+						<div class="space-y-4">
+							@input.Input(input.Props{
+								Type:        input.TypeText,
+								Placeholder: "Enter your name",
+								Name:        "name",
+							})
+							@input.Input(input.Props{
+								Type:        input.TypeEmail, 
+								Placeholder: "Enter your email",
+								Name:        "email",
+							})
+							@button.Button(button.Props{
+								Variant: button.VariantDefault,
+								Type:    button.TypeSubmit,
+							}) {
+								Submit
+							}
+						</div>
+					}
+				}
+			}
+		}
+	}
+}

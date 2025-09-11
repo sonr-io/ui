@@ -1,0 +1,35 @@
+package ui
+
+// ApexCharts is a component that renders ApexCharts
+templ ApexCharts() {
+	<script src="https://cdn.jsdelivr.net/npm/apexcharts@4.3.0/dist/apexcharts.min.js"></script>
+}
+
+// D3 is a component that renders D3.js
+templ D3() {
+	<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+}
+
+// Dexie is a component that renders Dexie
+templ Dexie() {
+	<script src="https://unpkg.com/dexie@latest/dist/dexie.js"></script>
+}
+
+// Helia is a component that renders Helia/IPFS
+templ Helia() {
+	<script type="module">
+		import { createHelia } from 'https://cdn.jsdelivr.net/npm/helia/dist/index.min.js';
+		window.createHelia = createHelia;
+	</script>
+}
+
+// Htmx is a component that renders HTMX
+templ Htmx() {
+	<script src="https://unpkg.com/htmx.org@2.0.4"></script>
+}
+
+// Shoelace is a component that renders Shoelace
+templ Shoelace() {
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.19.1/cdn/themes/light.css"/>
+	<script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.19.1/cdn/shoelace-autoloader.js"></script>
+}
