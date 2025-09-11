@@ -1,0 +1,156 @@
+{
+	"$schema": "https://raw.githubusercontent.com/jetify-com/devbox/0.16.0/.schema/devbox.schema.json",
+	"packages": [
+		"go@1.24.2",
+		"nodejs@latest",
+		"git@latest"
+	],
+	"env": {
+		"GOPATH": "$HOME/go",
+		"PATH": "$PATH:$GOPATH/bin:$PWD/node_modules/.bin",
+		"CGO_ENABLED": "1"
+	},
+	"shell": {
+		"init_hook": [
+			"echo '🚀 Welcome to go-sonr/ui development environment!' > /dev/null",
+			"echo 'Installing Go tools...' > /dev/null",
+			"go install github.com/a-h/templ/cmd/templ@v0.3.943 2>/dev/null || true",
+			"go install github.com/air-verse/air@latest 2>/dev/null || true",
+			"go install github.com/templui/templui/cmd/templui@latest 2>/dev/null || true",
+			"echo 'Installing Node dependencies...' > /dev/null",
+			"if [ ! -f node_modules/.bin/tailwindcss ]; then npm install -D tailwindcss@next @tailwindcss/cli@next 2>/dev/null || true; fi",
+			"echo '✨ Development environment ready!' > /dev/null",
+			"echo 'Run \"devbox run help\" to see available commands' > /dev/null"
+		],
+		"scripts": {
+			"help": [
+				"echo '📚 Available Commands:'",
+				"echo ''",
+				"echo '  Development:'",
+				"echo '    devbox run dev          - Start development server with hot reload'",
+				"echo '    devbox run server       - Run Go server with hot reload (Air)'",
+				"echo '    devbox run templ        - Watch and generate templ files'",
+				"echo '    devbox run css          - Generate CSS from Tailwind'",
+				"echo '    devbox run css-watch    - Watch CSS files for changes'",
+				"echo ''",
+				"echo '  Building:'",
+				"echo '    devbox run build        - Build the Go module'",
+				"echo '    devbox run all          - Run format, generate, css, tidy, lint, build, examples'",
+				"echo '    devbox run generate     - Generate Go code from templ files'",
+				"echo '    devbox run format       - Format Go and templ files'",
+				"echo '    devbox run lint         - Run Go linting'",
+				"echo '    devbox run tidy         - Tidy Go module dependencies'",
+				"echo ''",
+				"echo '  Components:'",
+				"echo '    devbox run add COMPONENT=name - Add a component via templui'",
+				"echo '    devbox run list         - List available templui components'",
+				"echo '    devbox run update-templ - Update templ to latest version'",
+				"echo ''",
+				"echo '  Examples:'",
+				"echo '    devbox run examples     - Build all examples'",
+				"echo '    devbox run examples-run - Run the server example'",
+				"echo '    devbox run examples-clean - Clean example binaries'",
+				"echo ''",
+				"echo '  Utilities:'",
+				"echo '    devbox run clean        - Remove all generated files'",
+				"echo '    devbox run test         - Run tests'",
+				"echo ''",
+				"echo '💡 Tip: Use \"make help\" for direct Makefile targets'"
+			],
+			"dev": [
+				"echo '🚀 Starting development server...'",
+				"echo 'templ UI: http://localhost:7331'",
+				"echo 'Go server: http://localhost:8090'",
+				"echo 'Press Ctrl+C to stop'",
+				"make dev"
+			],
+			"server": [
+				"echo '🔥 Starting Go server with hot reload...'",
+				"make server"
+			],
+			"templ": [
+				"echo '👁️ Watching templ files...'",
+				"make templ"
+			],
+			"css": [
+				"echo '🎨 Generating CSS with Tailwind...'",
+				"make css"
+			],
+			"css-watch": [
+				"echo '👁️ Watching CSS files...'",
+				"make css-watch"
+			],
+			"build": [
+				"echo '🔨 Building Go module...'",
+				"make build"
+			],
+			"all": [
+				"echo '🏗️ Running complete build pipeline...'",
+				"make all"
+			],
+			"generate": [
+				"echo '⚙️ Generating Go code from templ files...'",
+				"make generate"
+			],
+			"format": [
+				"echo '✨ Formatting code...'",
+				"make format"
+			],
+			"lint": [
+				"echo '🔍 Linting code...'",
+				"make lint"
+			],
+			"tidy": [
+				"echo '📦 Tidying Go modules...'",
+				"make tidy"
+			],
+			"clean": [
+				"echo '🧹 Cleaning generated files...'",
+				"make clean"
+			],
+			"add": [
+				"echo '➕ Adding component...'",
+				"make add COMPONENT=$COMPONENT"
+			],
+			"list": [
+				"echo '📋 Listing available components...'",
+				"make list"
+			],
+			"update-templ": [
+				"echo '⬆️ Updating templ...'",
+				"make update-templ"
+			],
+			"examples": [
+				"echo '📚 Building examples...'",
+				"make examples"
+			],
+			"examples-run": [
+				"echo '▶️ Running server example...'",
+				"make examples-run"
+			],
+			"examples-clean": [
+				"echo '🧹 Cleaning example binaries...'",
+				"make examples-clean"
+			],
+			"test": [
+				"echo '🧪 Running tests...'",
+				"go test ./..."
+			],
+			"install-tools": [
+				"echo '📦 Installing development tools...'",
+				"go install github.com/a-h/templ/cmd/templ@latest",
+				"go install github.com/air-verse/air@latest",
+				"go install github.com/templui/templui/cmd/templui@latest",
+				"npm install -D tailwindcss@next @tailwindcss/cli@next",
+				"echo '✅ All tools installed!'"
+			],
+			"setup": [
+				"echo '🔧 Setting up project...'",
+				"go mod download",
+				"templui init",
+				"mkdir -p assets/css assets/js",
+				"echo '✅ Project setup complete!'"
+			]
+		}
+	}
+}

@@ -1,7 +1,7 @@
-.PHONY: all generate format lint clean build css css-watch examples examples-run examples-clean help
+.PHONY: all generate format lint tidy clean build css css-watch examples examples-run examples-clean templ server tailwind dev help
 
 # Default target
-all: format generate css lint build examples
+all: format generate css tidy lint build examples
 
 # Generate Go code from templ files
 generate:
@@ -20,8 +20,12 @@ lint:
 	@echo "Running Go vet..."
 	@go vet ./...
 	@echo "Checking module dependencies..."
-	@go mod tidy
 	@go mod verify
+
+# Tidy Go module dependencies
+tidy:
+	@echo "Tidying Go module dependencies..."
+	@go mod tidy
 
 # Build the module
 build:
@@ -81,16 +85,48 @@ examples-run:
 examples-clean:
 	@$(MAKE) -C examples clean
 
+# Development targets with hot reload
+# Run templ generation in watch mode
+templ:
+	@templ generate --watch --proxy="http://localhost:8090" --open-browser=false
+
+# Run air for Go hot reload
+server:
+	@air \
+	--build.cmd "go build -o tmp/bin/main ./examples/server/main.go" \
+	--build.bin "tmp/bin/main" \
+	--build.delay "100" \
+	--build.exclude_dir "node_modules" \
+	--build.include_ext "go" \
+	--build.stop_on_error "false" \
+	--misc.clean_on_exit true
+
+# Watch Tailwind CSS changes (alias for css-watch)
+tailwind:
+	@$(MAKE) css-watch
+
+# Start development server with all watchers
+dev:
+	@echo "Starting development environment..."
+	@echo "templ UI: http://localhost:7331"
+	@echo "Go server: http://localhost:8090"
+	@$(MAKE) -j3 tailwind templ server
+
 # Help target
 help:
 	@echo "Available targets:"
-	@echo "  make all          - Run format, generate, css, lint, build, and examples"
+	@echo "  make all          - Run format, generate, css, tidy, lint, build, and examples"
 	@echo "  make generate     - Generate Go code from templ files"
 	@echo "  make format       - Format Go and templ files"
 	@echo "  make lint         - Run Go linting and verify modules"
+	@echo "  make tidy         - Tidy Go module dependencies"
 	@echo "  make build        - Build the Go module"
 	@echo "  make css          - Generate minified CSS from Tailwind input"
 	@echo "  make css-watch    - Watch and regenerate CSS on changes"
+	@echo "  make dev          - Start full development environment (templ, CSS, Go server)"
+	@echo "  make templ        - Watch and generate templ files"
+	@echo "  make server       - Run Go server with hot reload (Air)"
+	@echo "  make tailwind     - Watch Tailwind CSS changes (alias for css-watch)"
 	@echo "  make examples     - Build all example applications"
 	@echo "  make examples-run - Run the server example"
 	@echo "  make examples-clean - Clean example binaries"
