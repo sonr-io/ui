@@ -1,5 +1,31 @@
 package ui
 
+import (
+	"github.com/go-sonr/ui/components/avatar"
+	"github.com/go-sonr/ui/components/calendar"
+	"github.com/go-sonr/ui/components/carousel"
+	"github.com/go-sonr/ui/components/chart"
+	"github.com/go-sonr/ui/components/code"
+	"github.com/go-sonr/ui/components/collapsible"
+	"github.com/go-sonr/ui/components/datepicker"
+	"github.com/go-sonr/ui/components/dialog"
+	"github.com/go-sonr/ui/components/dropdown"
+	"github.com/go-sonr/ui/components/input"
+	"github.com/go-sonr/ui/components/inputotp"
+	"github.com/go-sonr/ui/components/label"
+	"github.com/go-sonr/ui/components/popover"
+	"github.com/go-sonr/ui/components/progress"
+	"github.com/go-sonr/ui/components/rating"
+	"github.com/go-sonr/ui/components/selectbox"
+	"github.com/go-sonr/ui/components/sidebar"
+	"github.com/go-sonr/ui/components/slider"
+	"github.com/go-sonr/ui/components/tabs"
+	"github.com/go-sonr/ui/components/tagsinput"
+	"github.com/go-sonr/ui/components/textarea"
+	"github.com/go-sonr/ui/components/timepicker"
+	"github.com/go-sonr/ui/components/toast"
+)
+
 // Body is a component that renders the body tag
 templ Body() {
 	<body>
@@ -19,6 +45,30 @@ templ Head() {
 		@Tailwind()
 		@Shoelace()
 		@DefaultStyles()
+		// Component scripts
+		@avatar.Script()
+		@calendar.Script()
+		@carousel.Script()
+		@chart.Script()
+		@code.Script()
+		@collapsible.Script()
+		@datepicker.Script()
+		@dialog.Script()
+		@dropdown.Script()
+		@input.Script()
+		@inputotp.Script()
+		@label.Script()
+		@popover.Script()
+		@progress.Script()
+		@rating.Script()
+		@selectbox.Script()
+		@sidebar.Script()
+		@slider.Script()
+		@tabs.Script()
+		@tagsinput.Script()
+		@textarea.Script()
+		@timepicker.Script()
+		@toast.Script()
 		{ children... }
 	</head>
 }
