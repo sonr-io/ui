@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-//go:embed assets/js/*.min.js
+//go:embed assets/js/*.min.js assets/css/*.css
 var assetsFS embed.FS
 
 // AssetHandler returns an http.Handler that serves embedded JavaScript assets
@@ -32,6 +32,7 @@ func AssetHandler() http.Handler {
 // Middleware returns an HTTP middleware that serves UI assets and passes through
 // other requests. This middleware automatically serves:
 // - JavaScript assets at /assets/js/*
+// - CSS assets at /assets/css/*
 // - External CDN resources are not handled (loaded directly from CDN)
 //
 // Example:
@@ -39,12 +40,19 @@ func AssetHandler() http.Handler {
 //	mux := http.NewServeMux()
 //	mux.Handle("/", ui.Middleware(yourHandler))
 func Middleware(next http.Handler) http.Handler {
-	assetHandler := AssetHandler()
+	jsHandler := AssetHandler()
+	cssHandler := CSSHandler()
 	
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		// Check if this is an asset request
+		// Check if this is a JavaScript asset request
 		if strings.HasPrefix(r.URL.Path, "/assets/js/") {
-			assetHandler.ServeHTTP(w, r)
+			jsHandler.ServeHTTP(w, r)
+			return
+		}
+		
+		// Check if this is a CSS asset request
+		if strings.HasPrefix(r.URL.Path, "/assets/css/") {
+			cssHandler.ServeHTTP(w, r)
 			return
 		}
 		

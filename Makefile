@@ -1,7 +1,7 @@
-.PHONY: all generate format lint clean build help
+.PHONY: all generate format lint clean build css css-watch help
 
 # Default target
-all: format generate lint build
+all: format generate css lint build
 
 # Generate Go code from templ files
 generate:
@@ -28,11 +28,25 @@ build:
 	@echo "Building module..."
 	@go build ./...
 
+# Generate CSS from Tailwind input file
+css:
+	@echo "Generating CSS with Tailwind..."
+	@npx tailwindcss -i ./assets/css/input.css -o ./assets/css/output.css --minify 2>/dev/null || \
+		(echo "Installing Tailwind CSS..." && \
+		npm install -D tailwindcss && \
+		npx tailwindcss -i ./assets/css/input.css -o ./assets/css/output.css --minify)
+
+# Watch CSS files for changes and regenerate
+css-watch:
+	@echo "Watching CSS files for changes..."
+	@npx tailwindcss -i ./assets/css/input.css -o ./assets/css/output.css --watch
+
 # Clean generated files
 clean:
 	@echo "Cleaning generated files..."
 	@find . -name "*_templ.go" -type f -delete
 	@find . -name "*_templ.txt" -type f -delete
+	@rm -f ./assets/css/output.css
 
 # Install or update a component via templui
 add:
@@ -57,11 +71,13 @@ update-templ:
 # Help target
 help:
 	@echo "Available targets:"
-	@echo "  make all          - Run format, generate, lint, and build"
+	@echo "  make all          - Run format, generate, css, lint, and build"
 	@echo "  make generate     - Generate Go code from templ files"
 	@echo "  make format       - Format Go and templ files"
 	@echo "  make lint         - Run Go linting and verify modules"
 	@echo "  make build        - Build the Go module"
+	@echo "  make css          - Generate minified CSS from Tailwind input"
+	@echo "  make css-watch    - Watch and regenerate CSS on changes"
 	@echo "  make clean        - Remove generated files"
 	@echo "  make add COMPONENT=name - Add a component via templui"
 	@echo "  make list         - List available templui components"
