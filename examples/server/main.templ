@@ -14,27 +14,27 @@ templ HomePage() {
 		}
 		@layout.Body() {
 			@layout.Container() {
-				@card.Card(&card.CardProps{
+				@card.Card(card.Props{
 					Class: "w-full max-w-md",
 				}) {
-					@card.CardHeader(&card.CardHeaderProps{}) {
-						@card.CardTitle(&card.CardTitleProps{}) {
+					@card.Header(card.HeaderProps{}) {
+						@card.Title(card.TitleProps{}) {
 							Example Form
 						}
 					}
-					@card.CardContent(&card.CardContentProps{}) {
+					@card.Content(card.ContentProps{}) {
 						<div class="space-y-4">
-							@input.Input(&input.InputProps{
-								Type:        "text",
+							@input.Input(input.Props{
+								Type:        input.TypeText,
 								Placeholder: "Enter your name",
 								Name:        "name",
 							})
-							@input.Input(&input.InputProps{
-								Type:        "email", 
+							@input.Input(input.Props{
+								Type:        input.TypeEmail, 
 								Placeholder: "Enter your email",
 								Name:        "email",
 							})
-							@button.Button(&button.ButtonProps{
+							@button.Button(button.Props{
 								Variant: button.VariantDefault,
 								Type:    button.TypeSubmit,
 							}) {

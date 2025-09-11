@@ -29,6 +29,19 @@ func AssetHandler() http.Handler {
 	return http.StripPrefix("/assets/js/", http.FileServer(http.FS(sub)))
 }
 
+// CSSHandler returns an http.Handler that serves embedded CSS assets
+// from the /assets/css/ path. This handler should be mounted at /assets/css/
+// in your HTTP router.
+//
+// Example:
+//
+//	mux := http.NewServeMux()
+//	mux.Handle("/assets/css/", ui.CSSHandler())
+func CSSHandler() http.Handler {
+	sub, _ := fs.Sub(assetsFS, "assets/css")
+	return http.StripPrefix("/assets/css/", http.FileServer(http.FS(sub)))
+}
+
 // Middleware returns an HTTP middleware that serves UI assets and passes through
 // other requests. This middleware automatically serves:
 // - JavaScript assets at /assets/js/*
@@ -42,20 +55,20 @@ func AssetHandler() http.Handler {
 func Middleware(next http.Handler) http.Handler {
 	jsHandler := AssetHandler()
 	cssHandler := CSSHandler()
-	
+
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		// Check if this is a JavaScript asset request
 		if strings.HasPrefix(r.URL.Path, "/assets/js/") {
 			jsHandler.ServeHTTP(w, r)
 			return
 		}
-		
+
 		// Check if this is a CSS asset request
 		if strings.HasPrefix(r.URL.Path, "/assets/css/") {
 			cssHandler.ServeHTTP(w, r)
 			return
 		}
-		
+
 		// Pass through to the next handler
 		next.ServeHTTP(w, r)
 	})
@@ -104,6 +117,7 @@ func AssetExists(name string) bool {
 //	mux.HandleFunc("/", homeHandler)
 func ServeAssets(mux *http.ServeMux) {
 	mux.Handle("/assets/js/", AssetHandler())
+	mux.Handle("/assets/css/", CSSHandler())
 }
 
 // WrapHandler wraps an existing http.Handler with UI middleware.
@@ -127,3 +141,4 @@ func CDNFallbackMiddleware(next http.Handler) http.Handler {
 		next.ServeHTTP(w, r)
 	})
 }
+

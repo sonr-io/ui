@@ -1,3 +1,4 @@
+// Package ui provides a set of UI components for Go web applications
 package ui
 
 import (
@@ -88,13 +89,13 @@ func SecurityHeaders(next http.Handler) http.Handler {
 			"https://cdn.jsdelivr.net; " +
 			"img-src 'self' data: https:; " +
 			"connect-src 'self' https: wss:;"
-		
+
 		w.Header().Set("Content-Security-Policy", csp)
 		w.Header().Set("X-Content-Type-Options", "nosniff")
 		w.Header().Set("X-Frame-Options", "SAMEORIGIN")
 		w.Header().Set("X-XSS-Protection", "1; mode=block")
 		w.Header().Set("Referrer-Policy", "strict-origin-when-cross-origin")
-		
+
 		next.ServeHTTP(w, r)
 	})
 }
@@ -111,3 +112,4 @@ func CacheControl(maxAge int) func(http.Handler) http.Handler {
 		})
 	}
 }
+

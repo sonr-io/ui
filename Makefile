@@ -1,7 +1,7 @@
-.PHONY: all generate format lint clean build css css-watch help
+.PHONY: all generate format lint clean build css css-watch examples examples-run examples-clean help
 
 # Default target
-all: format generate css lint build
+all: format generate css lint build examples
 
 # Generate Go code from templ files
 generate:
@@ -68,16 +68,32 @@ update-templ:
 	@go get -u github.com/a-h/templ
 	@go mod tidy
 
+# Build examples
+examples:
+	@echo "Building examples..."
+	@$(MAKE) -C examples build
+
+# Run server example
+examples-run:
+	@$(MAKE) -C examples run-server
+
+# Clean examples
+examples-clean:
+	@$(MAKE) -C examples clean
+
 # Help target
 help:
 	@echo "Available targets:"
-	@echo "  make all          - Run format, generate, css, lint, and build"
+	@echo "  make all          - Run format, generate, css, lint, build, and examples"
 	@echo "  make generate     - Generate Go code from templ files"
 	@echo "  make format       - Format Go and templ files"
 	@echo "  make lint         - Run Go linting and verify modules"
 	@echo "  make build        - Build the Go module"
 	@echo "  make css          - Generate minified CSS from Tailwind input"
 	@echo "  make css-watch    - Watch and regenerate CSS on changes"
+	@echo "  make examples     - Build all example applications"
+	@echo "  make examples-run - Run the server example"
+	@echo "  make examples-clean - Clean example binaries"
 	@echo "  make clean        - Remove generated files"
 	@echo "  make add COMPONENT=name - Add a component via templui"
 	@echo "  make list         - List available templui components"
