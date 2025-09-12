@@ -38,7 +38,6 @@ templ RegisterCLI(props RegisterCLIProps) {
 			50% { opacity: 0.6; }
 		}
 	</style>
-	
 	<div class="min-h-screen flex items-center justify-center bg-slate-900 text-white font-sans p-4">
 		<div class="max-w-md w-full">
 			@card.Card(card.Props{
@@ -54,7 +53,6 @@ templ RegisterCLI(props RegisterCLIProps) {
 					}
 					<div class="h-1 bg-gradient-to-r from-[#17c2ff] to-[#0ea5e9] rounded-full mx-auto w-24"></div>
 				}
-				
 				@card.Content(card.ContentProps{
 					Class: "space-y-6",
 				}) {
@@ -63,7 +61,6 @@ templ RegisterCLI(props RegisterCLIProps) {
 						<p class="text-slate-300 text-sm font-medium mb-1">Registering User</p>
 						<p id="username-display" class="text-[#17c2ff] text-xl font-bold">{ props.Username }</p>
 					</div>
-					
 					<!-- Status Section -->
 					<div class="space-y-4">
 						@alert.Alert(alert.Props{
@@ -73,18 +70,15 @@ templ RegisterCLI(props RegisterCLIProps) {
 								Initializing WebAuthn registration...
 							</div>
 						}
-						
 						<div id="instructions" class="text-slate-300 text-sm leading-relaxed text-center">
 							Please follow your browser and authenticator prompts.
 						</div>
-						
 						<!-- Progress Indicator -->
 						@progress.Progress(progress.Props{
 							Value: 0,
 							Class: "h-2",
 							ID:    "progress",
 						})
-						
 						<!-- Timeout Display -->
 						<div class="text-center">
 							@badge.Badge(badge.Props{
@@ -99,7 +93,6 @@ templ RegisterCLI(props RegisterCLIProps) {
 			}
 		</div>
 	</div>
-	
 	<!-- Load @sonr.io/es package from CDN -->
 	<script type="module">
 		import * as SonrES from 'https://cdn.jsdelivr.net/npm/@sonr.io/es@0.0.8/+esm';
@@ -111,7 +104,6 @@ templ RegisterCLI(props RegisterCLIProps) {
 			isWebAuthnSupported: SonrES.isWebAuthnSupported
 		};
 	</script>
-	
 	<script>
 		// Support both username and identifier parameters
 		const urlParams = new URLSearchParams(window.location.search);

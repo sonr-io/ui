@@ -20,7 +20,6 @@ templ LoginCLI(props LoginCLIProps) {
 			--sonr-primary-hover: #0ea5e9;
 		}
 	</style>
-	
 	<div class="min-h-screen bg-gray-900 flex items-center justify-center p-4">
 		<div class="max-w-md w-full">
 			@card.Card(card.Props{
@@ -36,13 +35,11 @@ templ LoginCLI(props LoginCLIProps) {
 							Class: "text-white",
 						})
 					</div>
-					
 					@card.Title(card.TitleProps{
 						Class: "text-3xl font-bold text-white mb-2",
 					}) {
 						Welcome Back to Sonr
 					}
-					
 					@card.Description(card.DescriptionProps{
 						Class: "text-gray-400",
 					}) {
@@ -50,7 +47,6 @@ templ LoginCLI(props LoginCLIProps) {
 						<span id="login-username-display" class="font-semibold text-cyan-400">{ props.Username }</span>
 					}
 				}
-				
 				@card.Content(card.ContentProps{
 					Class: "space-y-6",
 				}) {
@@ -64,12 +60,10 @@ templ LoginCLI(props LoginCLIProps) {
 							</div>
 						}
 					</div>
-					
 					<!-- Instructions -->
 					<div id="instructions" class="text-center text-gray-300">
 						Use your passkey or security key to authenticate.
 					</div>
-					
 					<!-- Timeout Container -->
 					<div id="timeout-container" class="text-center">
 						@badge.Badge(badge.Props{
@@ -83,7 +77,6 @@ templ LoginCLI(props LoginCLIProps) {
 			}
 		</div>
 	</div>
-	
 	<!-- Load @sonr.io/es package from CDN -->
 	<script type="module">
 		import * as SonrES from 'https://cdn.jsdelivr.net/npm/@sonr.io/es@0.0.8/+esm';
@@ -95,7 +88,6 @@ templ LoginCLI(props LoginCLIProps) {
 			isWebAuthnSupported: SonrES.isWebAuthnSupported
 		};
 	</script>
-	
 	<script>
 		const TIMEOUT_SECONDS = 30;
 		// Support both username and identifier parameters

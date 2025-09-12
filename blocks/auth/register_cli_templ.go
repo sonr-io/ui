@@ -129,7 +129,7 @@ func RegisterCLI(props RegisterCLIProps) templ.Component {
 				var templ_7745c5c3_Var6 string
 				templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(props.Username)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `blocks/auth/register_cli.templ`, Line: 64, Col: 88}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `blocks/auth/register_cli.templ`, Line: 62, Col: 88}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 				if templ_7745c5c3_Err != nil {
