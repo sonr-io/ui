@@ -1,0 +1,254 @@
+package auth
+
+import (
+	"github.com/go-sonr/ui/components/alert"
+	"github.com/go-sonr/ui/components/badge"
+	"github.com/go-sonr/ui/components/card"
+	"github.com/go-sonr/ui/components/icon"
+)
+
+type LoginCLIProps struct {
+	Username string
+	RPID     string
+	RPName   string
+}
+
+templ LoginCLI(props LoginCLIProps) {
+	<style>
+		:root {
+			--sonr-primary: #17c2ff;
+			--sonr-primary-hover: #0ea5e9;
+		}
+	</style>
+	
+	<div class="min-h-screen bg-gray-900 flex items-center justify-center p-4">
+		<div class="max-w-md w-full">
+			@card.Card(card.Props{
+				Class: "bg-gray-800 shadow-2xl",
+			}) {
+				@card.Header(card.HeaderProps{
+					Class: "text-center",
+				}) {
+					<!-- Icon -->
+					<div class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-blue-500 to-cyan-400 rounded-full mb-4 mx-auto">
+						@icon.Key(icon.Props{
+							Size:  32,
+							Class: "text-white",
+						})
+					</div>
+					
+					@card.Title(card.TitleProps{
+						Class: "text-3xl font-bold text-white mb-2",
+					}) {
+						Welcome Back to Sonr
+					}
+					
+					@card.Description(card.DescriptionProps{
+						Class: "text-gray-400",
+					}) {
+						Authenticating as: 
+						<span id="login-username-display" class="font-semibold text-cyan-400">{ props.Username }</span>
+					}
+				}
+				
+				@card.Content(card.ContentProps{
+					Class: "space-y-6",
+				}) {
+					<!-- Status Container -->
+					<div id="status-container">
+						@alert.Alert(alert.Props{
+							Class: "bg-blue-900/50 border-blue-800",
+						}) {
+							<div id="status" class="text-blue-300 text-sm font-medium">
+								Initializing WebAuthn authentication...
+							</div>
+						}
+					</div>
+					
+					<!-- Instructions -->
+					<div id="instructions" class="text-center text-gray-300">
+						Use your passkey or security key to authenticate.
+					</div>
+					
+					<!-- Timeout Container -->
+					<div id="timeout-container" class="text-center">
+						@badge.Badge(badge.Props{
+							Variant: "outline",
+							Class:   "text-gray-500 text-sm",
+						}) {
+							<span id="timeout-text"></span>
+						}
+					</div>
+				}
+			}
+		</div>
+	</div>
+	
+	<!-- Load @sonr.io/es package from CDN -->
+	<script type="module">
+		import * as SonrES from 'https://cdn.jsdelivr.net/npm/@sonr.io/es@0.0.8/+esm';
+		
+		// Make functions available globally
+		window.sonrAuth = {
+			loginWithPasskey: SonrES.loginWithPasskey,
+			isWebAuthnAvailable: SonrES.isWebAuthnAvailable,
+			isWebAuthnSupported: SonrES.isWebAuthnSupported
+		};
+	</script>
+	
+	<script>
+		const TIMEOUT_SECONDS = 30;
+		// Support both username and identifier parameters
+		const urlParams = new URLSearchParams(window.location.search);
+		const username = urlParams.get('identifier') || urlParams.get('username') || "{ props.Username }";
+		const rpId = "{ props.RPID }";
+		const rpName = "{ props.RPName }";
+		const API_URL = window.location.origin; // Use current origin as API URL
+		
+		// Update the username display if it's from URL params
+		if (urlParams.get('identifier') || urlParams.get('username')) {
+			document.getElementById('login-username-display').textContent = username;
+		}
+
+		function updateStatus(message, type = 'info') {
+			const statusEl = document.getElementById('status');
+			const statusContainer = statusEl.parentElement;
+			statusEl.textContent = message;
+			
+			// Update alert styling based on type
+			statusContainer.className = 'rounded-lg border p-4 ';
+			if (type === 'success') {
+				statusContainer.className += 'bg-green-900/50 border-green-800';
+				statusEl.className = 'text-green-300 text-sm font-medium';
+			} else if (type === 'error') {
+				statusContainer.className += 'bg-red-900/50 border-red-800';
+				statusEl.className = 'text-red-300 text-sm font-medium';
+			} else {
+				statusContainer.className += 'bg-blue-900/50 border-blue-800';
+				statusEl.className = 'text-blue-300 text-sm font-medium';
+			}
+		}
+
+		function updateInstructions(text) {
+			document.getElementById('instructions').textContent = text;
+		}
+
+		function updateTimeout(seconds) {
+			const timeoutEl = document.getElementById('timeout-text');
+			if (seconds > 0) {
+				timeoutEl.textContent = 'Authentication will timeout in ' + seconds + ' seconds';
+			} else {
+				timeoutEl.textContent = '';
+			}
+		}
+
+		async function startLogin() {
+			let countdownInterval;
+			let remainingSeconds = TIMEOUT_SECONDS;
+
+			try {
+				// Wait for the ES module to load
+				let attempts = 0;
+				while (!window.sonrAuth && attempts < 50) {
+					await new Promise(resolve => setTimeout(resolve, 100));
+					attempts++;
+				}
+				
+				if (!window.sonrAuth) {
+					throw new Error('Failed to load Sonr authentication library');
+				}
+				
+				// Check if WebAuthn is supported by the browser
+				const isSupported = window.sonrAuth.isWebAuthnSupported();
+				if (!isSupported) {
+					throw new Error('WebAuthn is not supported in this browser. Please use a modern browser like Chrome, Firefox, Safari, or Edge.');
+				}
+				
+				// Check if a platform authenticator is available
+				const isAvailable = await window.sonrAuth.isWebAuthnAvailable();
+				if (!isAvailable) {
+					updateStatus('Passkey support may be limited', 'info');
+					updateInstructions('Your device supports passkeys but may need configuration.');
+				}
+				
+				updateStatus('Initializing passkey authentication...', 'info');
+				updateInstructions('Preparing your authentication request...');
+
+				// Start countdown timer
+				countdownInterval = setInterval(() => {
+					remainingSeconds--;
+					updateTimeout(remainingSeconds);
+					if (remainingSeconds <= 0) {
+						clearInterval(countdownInterval);
+						updateStatus('Authentication timed out', 'error');
+						updateInstructions('Please refresh the page to try again.');
+					}
+				}, 1000);
+				updateTimeout(remainingSeconds);
+				
+				// Use the loginWithPasskey function from @sonr.io/es
+				const loginOptions = {
+					email: username.includes('@') ? username : undefined,
+					phone: username.includes('+') ? username : undefined,
+					username: !username.includes('@') && !username.includes('+') ? username : undefined,
+					// Override the endpoints to use local server
+					beginEndpoint: '/begin-login',
+					finishEndpoint: '/finish-login'
+				};
+
+				updateStatus('Waiting for your passkey authentication...', 'info');
+				updateInstructions('Follow the prompts from your browser or authenticator.');
+				
+				// Perform login using the SDK
+				const result = await window.sonrAuth.loginWithPasskey(API_URL, loginOptions);
+
+				// Clear the countdown timer
+				clearInterval(countdownInterval);
+
+				if (result.success) {
+					updateStatus('Authentication successful!', 'success');
+					updateInstructions('Welcome back! DID: ' + (result.did || 'Authenticated') + '. You can close this window and return to the CLI.');
+					updateTimeout(0);
+					
+					// Store authentication info if needed
+					if (result.did) {
+						sessionStorage.setItem('sonr_did', result.did);
+					}
+					if (result.token) {
+						sessionStorage.setItem('sonr_token', result.token);
+					}
+				} else {
+					throw new Error(result.error || 'Authentication failed');
+				}
+
+			} catch (error) {
+				// Clear the countdown timer
+				if (countdownInterval) {
+					clearInterval(countdownInterval);
+				}
+				
+				console.error('Authentication failed:', error);
+				
+				// Provide more specific error messages
+				let errorMessage = error.message;
+				if (error.name === 'NotAllowedError') {
+					errorMessage = 'Authentication was cancelled or not allowed';
+				} else if (error.name === 'InvalidStateError') {
+					errorMessage = 'No matching credential found';
+				} else if (error.name === 'NotSupportedError') {
+					errorMessage = 'This authenticator is not supported';
+				}
+				
+				updateStatus('Authentication failed', 'error');
+				updateInstructions(errorMessage);
+				updateTimeout(0);
+			}
+		}
+
+		// Start login when page loads
+		window.addEventListener('load', () => {
+			// Add a small delay to ensure all resources are loaded
+			setTimeout(startLogin, 500);
+		});
+	</script>
+}

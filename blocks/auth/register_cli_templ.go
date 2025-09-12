@@ -9,15 +9,19 @@ import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
 import (
-	"github.com/go-sonr/ui/components/button"
+	"github.com/go-sonr/ui/components/alert"
+	"github.com/go-sonr/ui/components/badge"
 	"github.com/go-sonr/ui/components/card"
-	"github.com/go-sonr/ui/components/checkbox"
-	"github.com/go-sonr/ui/components/form"
-	"github.com/go-sonr/ui/components/icon"
-	"github.com/go-sonr/ui/components/input"
+	"github.com/go-sonr/ui/components/progress"
 )
 
-func RegisterCLI() templ.Component {
+type RegisterCLIProps struct {
+	Username string
+	RPID     string
+	RPName   string
+}
+
+func RegisterCLI(props RegisterCLIProps) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -38,17 +42,7 @@ func RegisterCLI() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div class=\"flex min-h-svh w-full items-center justify-center p-6 md:p-10\"><div class=\"flex flex-col w-full max-w-sm flex-col items-center justify-center space-y-8\"><div class=\"flex items-center justify-center gap-2\">")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Err = icon.Layers(icon.Props{
-			Size: 20,
-		}).Render(ctx, templ_7745c5c3_Buffer)
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "<h1 class=\"text-2xl font-semibold tracking-tight\">Acme Inc</h1></div>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<style>\n\t\t:root {\n\t\t\t--sonr-primary: #17c2ff;\n\t\t\t--sonr-primary-hover: #0ea5e9;\n\t\t\t--sonr-primary-glow: rgba(23, 194, 255, 0.3);\n\t\t}\n\t\t\n\t\tbody {\n\t\t\tbackground: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);\n\t\t}\n\t\t\n\t\t.glow {\n\t\t\tbox-shadow: 0 0 20px var(--sonr-primary-glow);\n\t\t}\n\t\t\n\t\t.pulse-primary {\n\t\t\tanimation: pulse-primary 2s ease-in-out infinite;\n\t\t}\n\t\t\n\t\t@keyframes pulse-primary {\n\t\t\t0%, 100% { opacity: 1; }\n\t\t\t50% { opacity: 0.6; }\n\t\t}\n\t</style><div class=\"min-h-screen flex items-center justify-center bg-slate-900 text-white font-sans p-4\"><div class=\"max-w-md w-full\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -88,53 +82,35 @@ func RegisterCLI() templ.Component {
 						}()
 					}
 					ctx = templ.InitializeContext(ctx)
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "Create an account")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "Sonr Registration")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
 					return nil
 				})
-				templ_7745c5c3_Err = card.Title().Render(templ.WithChildren(ctx, templ_7745c5c3_Var4), templ_7745c5c3_Buffer)
+				templ_7745c5c3_Err = card.Title(card.TitleProps{
+					Class: "text-3xl font-bold text-white",
+				}).Render(templ.WithChildren(ctx, templ_7745c5c3_Var4), templ_7745c5c3_Buffer)
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, " ")
-				if templ_7745c5c3_Err != nil {
-					return templ_7745c5c3_Err
-				}
-				templ_7745c5c3_Var5 := templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
-					templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
-					templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
-					if !templ_7745c5c3_IsBuffer {
-						defer func() {
-							templ_7745c5c3_BufErr := templruntime.ReleaseBuffer(templ_7745c5c3_Buffer)
-							if templ_7745c5c3_Err == nil {
-								templ_7745c5c3_Err = templ_7745c5c3_BufErr
-							}
-						}()
-					}
-					ctx = templ.InitializeContext(ctx)
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "Enter your details to create your account")
-					if templ_7745c5c3_Err != nil {
-						return templ_7745c5c3_Err
-					}
-					return nil
-				})
-				templ_7745c5c3_Err = card.Description().Render(templ.WithChildren(ctx, templ_7745c5c3_Var5), templ_7745c5c3_Buffer)
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, " <div class=\"h-1 bg-gradient-to-r from-[#17c2ff] to-[#0ea5e9] rounded-full mx-auto w-24\"></div>")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
 				return nil
 			})
-			templ_7745c5c3_Err = card.Header().Render(templ.WithChildren(ctx, templ_7745c5c3_Var3), templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = card.Header(card.HeaderProps{
+				Class: "text-center space-y-4",
+			}).Render(templ.WithChildren(ctx, templ_7745c5c3_Var3), templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, " ")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, " ")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Var6 := templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
+			templ_7745c5c3_Var5 := templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 				templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 				templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
 				if !templ_7745c5c3_IsBuffer {
@@ -146,6 +122,23 @@ func RegisterCLI() templ.Component {
 					}()
 				}
 				ctx = templ.InitializeContext(ctx)
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "<!-- User Info Section --> <div class=\"bg-slate-700 rounded-lg p-4 border border-slate-600\"><p class=\"text-slate-300 text-sm font-medium mb-1\">Registering User</p><p id=\"username-display\" class=\"text-[#17c2ff] text-xl font-bold\">")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				var templ_7745c5c3_Var6 string
+				templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(props.Username)
+				if templ_7745c5c3_Err != nil {
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `blocks/auth/register_cli.templ`, Line: 64, Col: 88}
+				}
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "</p></div><!-- Status Section --> <div class=\"space-y-4\">")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
 				templ_7745c5c3_Var7 := templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 					templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 					templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
@@ -158,52 +151,35 @@ func RegisterCLI() templ.Component {
 						}()
 					}
 					ctx = templ.InitializeContext(ctx)
-					templ_7745c5c3_Var8 := templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
-						templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
-						templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
-						if !templ_7745c5c3_IsBuffer {
-							defer func() {
-								templ_7745c5c3_BufErr := templruntime.ReleaseBuffer(templ_7745c5c3_Buffer)
-								if templ_7745c5c3_Err == nil {
-									templ_7745c5c3_Err = templ_7745c5c3_BufErr
-								}
-							}()
-						}
-						ctx = templ.InitializeContext(ctx)
-						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "First name")
-						if templ_7745c5c3_Err != nil {
-							return templ_7745c5c3_Err
-						}
-						return nil
-					})
-					templ_7745c5c3_Err = form.Label(form.LabelProps{
-						For: "sign-up-001-first-name",
-					}).Render(templ.WithChildren(ctx, templ_7745c5c3_Var8), templ_7745c5c3_Buffer)
-					if templ_7745c5c3_Err != nil {
-						return templ_7745c5c3_Err
-					}
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, " ")
-					if templ_7745c5c3_Err != nil {
-						return templ_7745c5c3_Err
-					}
-					templ_7745c5c3_Err = input.Input(input.Props{
-						ID:          "sign-up-001-first-name",
-						Placeholder: "Max",
-					}).Render(ctx, templ_7745c5c3_Buffer)
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "<div id=\"status\" class=\"text-[#17c2ff] font-semibold text-lg pulse-primary\">Initializing WebAuthn registration...</div>")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
 					return nil
 				})
-				templ_7745c5c3_Err = form.Item().Render(templ.WithChildren(ctx, templ_7745c5c3_Var7), templ_7745c5c3_Buffer)
+				templ_7745c5c3_Err = alert.Alert(alert.Props{
+					Class: "bg-slate-700 border-slate-600",
+				}).Render(templ.WithChildren(ctx, templ_7745c5c3_Var7), templ_7745c5c3_Buffer)
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, " ")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "<div id=\"instructions\" class=\"text-slate-300 text-sm leading-relaxed text-center\">Please follow your browser and authenticator prompts.</div><!-- Progress Indicator -->")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				templ_7745c5c3_Var9 := templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
+				templ_7745c5c3_Err = progress.Progress(progress.Props{
+					Value: 0,
+					Class: "h-2",
+					ID:    "progress",
+				}).Render(ctx, templ_7745c5c3_Buffer)
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "<!-- Timeout Display --><div class=\"text-center\">")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				templ_7745c5c3_Var8 := templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 					templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 					templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
 					if !templ_7745c5c3_IsBuffer {
@@ -215,281 +191,40 @@ func RegisterCLI() templ.Component {
 						}()
 					}
 					ctx = templ.InitializeContext(ctx)
-					templ_7745c5c3_Var10 := templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
-						templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
-						templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
-						if !templ_7745c5c3_IsBuffer {
-							defer func() {
-								templ_7745c5c3_BufErr := templruntime.ReleaseBuffer(templ_7745c5c3_Buffer)
-								if templ_7745c5c3_Err == nil {
-									templ_7745c5c3_Err = templ_7745c5c3_BufErr
-								}
-							}()
-						}
-						ctx = templ.InitializeContext(ctx)
-						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 10, "Last name")
-						if templ_7745c5c3_Err != nil {
-							return templ_7745c5c3_Err
-						}
-						return nil
-					})
-					templ_7745c5c3_Err = form.Label(form.LabelProps{
-						For: "sign-up-001-last-name",
-					}).Render(templ.WithChildren(ctx, templ_7745c5c3_Var10), templ_7745c5c3_Buffer)
-					if templ_7745c5c3_Err != nil {
-						return templ_7745c5c3_Err
-					}
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, " ")
-					if templ_7745c5c3_Err != nil {
-						return templ_7745c5c3_Err
-					}
-					templ_7745c5c3_Err = input.Input(input.Props{
-						ID:          "sign-up-001-last-name",
-						Placeholder: "Mustermann",
-					}).Render(ctx, templ_7745c5c3_Buffer)
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 10, "<span id=\"timeout\"></span>")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
 					return nil
 				})
-				templ_7745c5c3_Err = form.Item().Render(templ.WithChildren(ctx, templ_7745c5c3_Var9), templ_7745c5c3_Buffer)
+				templ_7745c5c3_Err = badge.Badge(badge.Props{
+					Variant: "outline",
+					Class:   "text-slate-400 text-xs font-mono",
+				}).Render(templ.WithChildren(ctx, templ_7745c5c3_Var8), templ_7745c5c3_Buffer)
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 12, " ")
-				if templ_7745c5c3_Err != nil {
-					return templ_7745c5c3_Err
-				}
-				templ_7745c5c3_Var11 := templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
-					templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
-					templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
-					if !templ_7745c5c3_IsBuffer {
-						defer func() {
-							templ_7745c5c3_BufErr := templruntime.ReleaseBuffer(templ_7745c5c3_Buffer)
-							if templ_7745c5c3_Err == nil {
-								templ_7745c5c3_Err = templ_7745c5c3_BufErr
-							}
-						}()
-					}
-					ctx = templ.InitializeContext(ctx)
-					templ_7745c5c3_Var12 := templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
-						templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
-						templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
-						if !templ_7745c5c3_IsBuffer {
-							defer func() {
-								templ_7745c5c3_BufErr := templruntime.ReleaseBuffer(templ_7745c5c3_Buffer)
-								if templ_7745c5c3_Err == nil {
-									templ_7745c5c3_Err = templ_7745c5c3_BufErr
-								}
-							}()
-						}
-						ctx = templ.InitializeContext(ctx)
-						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 13, "Email")
-						if templ_7745c5c3_Err != nil {
-							return templ_7745c5c3_Err
-						}
-						return nil
-					})
-					templ_7745c5c3_Err = form.Label(form.LabelProps{
-						For: "sign-up-001-email",
-					}).Render(templ.WithChildren(ctx, templ_7745c5c3_Var12), templ_7745c5c3_Buffer)
-					if templ_7745c5c3_Err != nil {
-						return templ_7745c5c3_Err
-					}
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 14, " ")
-					if templ_7745c5c3_Err != nil {
-						return templ_7745c5c3_Err
-					}
-					templ_7745c5c3_Err = input.Input(input.Props{
-						ID:          "sign-up-001-email",
-						Type:        "email",
-						Placeholder: "name@example.com",
-					}).Render(ctx, templ_7745c5c3_Buffer)
-					if templ_7745c5c3_Err != nil {
-						return templ_7745c5c3_Err
-					}
-					return nil
-				})
-				templ_7745c5c3_Err = form.Item().Render(templ.WithChildren(ctx, templ_7745c5c3_Var11), templ_7745c5c3_Buffer)
-				if templ_7745c5c3_Err != nil {
-					return templ_7745c5c3_Err
-				}
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 15, " ")
-				if templ_7745c5c3_Err != nil {
-					return templ_7745c5c3_Err
-				}
-				templ_7745c5c3_Var13 := templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
-					templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
-					templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
-					if !templ_7745c5c3_IsBuffer {
-						defer func() {
-							templ_7745c5c3_BufErr := templruntime.ReleaseBuffer(templ_7745c5c3_Buffer)
-							if templ_7745c5c3_Err == nil {
-								templ_7745c5c3_Err = templ_7745c5c3_BufErr
-							}
-						}()
-					}
-					ctx = templ.InitializeContext(ctx)
-					templ_7745c5c3_Var14 := templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
-						templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
-						templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
-						if !templ_7745c5c3_IsBuffer {
-							defer func() {
-								templ_7745c5c3_BufErr := templruntime.ReleaseBuffer(templ_7745c5c3_Buffer)
-								if templ_7745c5c3_Err == nil {
-									templ_7745c5c3_Err = templ_7745c5c3_BufErr
-								}
-							}()
-						}
-						ctx = templ.InitializeContext(ctx)
-						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 16, "Password")
-						if templ_7745c5c3_Err != nil {
-							return templ_7745c5c3_Err
-						}
-						return nil
-					})
-					templ_7745c5c3_Err = form.Label(form.LabelProps{
-						For: "sign-up-001-password",
-					}).Render(templ.WithChildren(ctx, templ_7745c5c3_Var14), templ_7745c5c3_Buffer)
-					if templ_7745c5c3_Err != nil {
-						return templ_7745c5c3_Err
-					}
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 17, " ")
-					if templ_7745c5c3_Err != nil {
-						return templ_7745c5c3_Err
-					}
-					templ_7745c5c3_Err = input.Input(input.Props{
-						ID:          "sign-up-001-password",
-						Type:        "password",
-						Placeholder: "••••••••",
-					}).Render(ctx, templ_7745c5c3_Buffer)
-					if templ_7745c5c3_Err != nil {
-						return templ_7745c5c3_Err
-					}
-					return nil
-				})
-				templ_7745c5c3_Err = form.Item().Render(templ.WithChildren(ctx, templ_7745c5c3_Var13), templ_7745c5c3_Buffer)
-				if templ_7745c5c3_Err != nil {
-					return templ_7745c5c3_Err
-				}
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 18, " ")
-				if templ_7745c5c3_Err != nil {
-					return templ_7745c5c3_Err
-				}
-				templ_7745c5c3_Var15 := templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
-					templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
-					templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
-					if !templ_7745c5c3_IsBuffer {
-						defer func() {
-							templ_7745c5c3_BufErr := templruntime.ReleaseBuffer(templ_7745c5c3_Buffer)
-							if templ_7745c5c3_Err == nil {
-								templ_7745c5c3_Err = templ_7745c5c3_BufErr
-							}
-						}()
-					}
-					ctx = templ.InitializeContext(ctx)
-					templ_7745c5c3_Err = checkbox.Checkbox(checkbox.Props{
-						ID: "sign-up-001-terms",
-					}).Render(ctx, templ_7745c5c3_Buffer)
-					if templ_7745c5c3_Err != nil {
-						return templ_7745c5c3_Err
-					}
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 19, " ")
-					if templ_7745c5c3_Err != nil {
-						return templ_7745c5c3_Err
-					}
-					templ_7745c5c3_Var16 := templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
-						templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
-						templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
-						if !templ_7745c5c3_IsBuffer {
-							defer func() {
-								templ_7745c5c3_BufErr := templruntime.ReleaseBuffer(templ_7745c5c3_Buffer)
-								if templ_7745c5c3_Err == nil {
-									templ_7745c5c3_Err = templ_7745c5c3_BufErr
-								}
-							}()
-						}
-						ctx = templ.InitializeContext(ctx)
-						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 20, "I agree to the  <a href=\"#\" class=\"text-primary underline underline-offset-4 hover:text-primary/80\">terms and conditions</a>")
-						if templ_7745c5c3_Err != nil {
-							return templ_7745c5c3_Err
-						}
-						return nil
-					})
-					templ_7745c5c3_Err = form.Label(form.LabelProps{
-						For: "sign-up-001-terms",
-					}).Render(templ.WithChildren(ctx, templ_7745c5c3_Var16), templ_7745c5c3_Buffer)
-					if templ_7745c5c3_Err != nil {
-						return templ_7745c5c3_Err
-					}
-					return nil
-				})
-				templ_7745c5c3_Err = form.ItemFlex().Render(templ.WithChildren(ctx, templ_7745c5c3_Var15), templ_7745c5c3_Buffer)
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "</div></div>")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
 				return nil
 			})
 			templ_7745c5c3_Err = card.Content(card.ContentProps{
-				Class: "space-y-4",
-			}).Render(templ.WithChildren(ctx, templ_7745c5c3_Var6), templ_7745c5c3_Buffer)
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 21, " ")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			templ_7745c5c3_Var17 := templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
-				templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
-				templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
-				if !templ_7745c5c3_IsBuffer {
-					defer func() {
-						templ_7745c5c3_BufErr := templruntime.ReleaseBuffer(templ_7745c5c3_Buffer)
-						if templ_7745c5c3_Err == nil {
-							templ_7745c5c3_Err = templ_7745c5c3_BufErr
-						}
-					}()
-				}
-				ctx = templ.InitializeContext(ctx)
-				templ_7745c5c3_Var18 := templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
-					templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
-					templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
-					if !templ_7745c5c3_IsBuffer {
-						defer func() {
-							templ_7745c5c3_BufErr := templruntime.ReleaseBuffer(templ_7745c5c3_Buffer)
-							if templ_7745c5c3_Err == nil {
-								templ_7745c5c3_Err = templ_7745c5c3_BufErr
-							}
-						}()
-					}
-					ctx = templ.InitializeContext(ctx)
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 22, "Create account")
-					if templ_7745c5c3_Err != nil {
-						return templ_7745c5c3_Err
-					}
-					return nil
-				})
-				templ_7745c5c3_Err = button.Button(button.Props{
-					Class: "w-full",
-					Type:  button.TypeSubmit,
-				}).Render(templ.WithChildren(ctx, templ_7745c5c3_Var18), templ_7745c5c3_Buffer)
-				if templ_7745c5c3_Err != nil {
-					return templ_7745c5c3_Err
-				}
-				return nil
-			})
-			templ_7745c5c3_Err = card.Footer().Render(templ.WithChildren(ctx, templ_7745c5c3_Var17), templ_7745c5c3_Buffer)
+				Class: "space-y-6",
+			}).Render(templ.WithChildren(ctx, templ_7745c5c3_Var5), templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			return nil
 		})
-		templ_7745c5c3_Err = card.Card().Render(templ.WithChildren(ctx, templ_7745c5c3_Var2), templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = card.Card(card.Props{
+			Class: "bg-slate-800 border-slate-700 shadow-2xl glow",
+		}).Render(templ.WithChildren(ctx, templ_7745c5c3_Var2), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 23, "<div class=\"text-center text-sm\">Already have an account? <a href=\"#\" class=\"font-medium text-primary hover:text-primary/80\">Sign in</a></div></div></div>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 12, "</div></div><!-- Load @sonr.io/es package from CDN --><script type=\"module\">\n\t\timport * as SonrES from 'https://cdn.jsdelivr.net/npm/@sonr.io/es@0.0.8/+esm';\n\t\t\n\t\t// Make functions available globally\n\t\twindow.sonrAuth = {\n\t\t\tregisterWithPasskey: SonrES.registerWithPasskey,\n\t\t\tisWebAuthnAvailable: SonrES.isWebAuthnAvailable,\n\t\t\tisWebAuthnSupported: SonrES.isWebAuthnSupported\n\t\t};\n\t</script><script>\n\t\t// Support both username and identifier parameters\n\t\tconst urlParams = new URLSearchParams(window.location.search);\n\t\tconst username = urlParams.get('identifier') || urlParams.get('username') || '{ props.Username }';\n\t\tconst rpId = '{ props.RPID }';\n\t\tconst API_URL = window.location.origin; // Use current origin as API URL\n\t\t\n\t\t// Update the username display if it's from URL params\n\t\tif (urlParams.get('identifier') || urlParams.get('username')) {\n\t\t\tdocument.getElementById('username-display').textContent = username;\n\t\t}\n\t\t\n\t\tfunction updateStatus(message, type = 'info') {\n\t\t\tconst statusEl = document.getElementById('status');\n\t\t\tconst progressEl = document.getElementById('progress');\n\t\t\t\n\t\t\tstatusEl.textContent = message;\n\t\t\t\n\t\t\t// Remove all existing classes and add new ones based on type\n\t\t\tstatusEl.className = 'font-semibold text-lg';\n\t\t\t\n\t\t\tswitch(type) {\n\t\t\t\tcase 'success':\n\t\t\t\t\tstatusEl.className += ' text-green-400';\n\t\t\t\t\tstatusEl.classList.remove('pulse-primary');\n\t\t\t\t\tif (progressEl) {\n\t\t\t\t\t\tprogressEl.style.setProperty('--progress-value', '100');\n\t\t\t\t\t\tprogressEl.querySelector('.bg-primary')?.classList.add('bg-green-400');\n\t\t\t\t\t}\n\t\t\t\t\tbreak;\n\t\t\t\tcase 'error':\n\t\t\t\t\tstatusEl.className += ' text-red-400';\n\t\t\t\t\tstatusEl.classList.remove('pulse-primary');\n\t\t\t\t\tif (progressEl) {\n\t\t\t\t\t\tprogressEl.style.setProperty('--progress-value', '100');\n\t\t\t\t\t\tprogressEl.querySelector('.bg-primary')?.classList.add('bg-red-400');\n\t\t\t\t\t}\n\t\t\t\t\tbreak;\n\t\t\t\tcase 'processing':\n\t\t\t\t\tstatusEl.className += ' text-[#17c2ff] pulse-primary';\n\t\t\t\t\tif (progressEl) {\n\t\t\t\t\t\tprogressEl.style.setProperty('--progress-value', '75');\n\t\t\t\t\t}\n\t\t\t\t\tbreak;\n\t\t\t\tdefault: // info\n\t\t\t\t\tstatusEl.className += ' text-[#17c2ff] pulse-primary';\n\t\t\t\t\tif (progressEl) {\n\t\t\t\t\t\tprogressEl.style.setProperty('--progress-value', '25');\n\t\t\t\t\t}\n\t\t\t}\n\t\t}\n\t\t\n\t\tfunction updateInstructions(message) {\n\t\t\tconst instructionsEl = document.getElementById('instructions');\n\t\t\tinstructionsEl.textContent = message;\n\t\t\tinstructionsEl.className = 'text-slate-300 text-sm leading-relaxed text-center';\n\t\t}\n\t\t\n\t\tfunction updateTimeout(seconds) {\n\t\t\tconst timeoutEl = document.getElementById('timeout');\n\t\t\tif (seconds > 0) {\n\t\t\t\ttimeoutEl.textContent = 'Timeout in ' + seconds + 's';\n\t\t\t} else {\n\t\t\t\ttimeoutEl.textContent = 'Registration timed out';\n\t\t\t\ttimeoutEl.parentElement.classList.remove('text-slate-400');\n\t\t\t\ttimeoutEl.parentElement.classList.add('text-red-400');\n\t\t\t}\n\t\t}\n\t\t\n\t\t// Start countdown timer\n\t\tlet timeoutSeconds = 30;\n\t\tconst countdownInterval = setInterval(() => {\n\t\t\tupdateTimeout(timeoutSeconds);\n\t\t\ttimeoutSeconds--;\n\t\t\tif (timeoutSeconds < 0) {\n\t\t\t\tclearInterval(countdownInterval);\n\t\t\t\tupdateStatus('Registration timed out', 'error');\n\t\t\t\tupdateInstructions('Please return to the CLI and try again.');\n\t\t\t}\n\t\t}, 1000);\n\n\t\tasync function startRegistration() {\n\t\t\ttry {\n\t\t\t\t// Wait for the ES module to load\n\t\t\t\tlet attempts = 0;\n\t\t\t\twhile (!window.sonrAuth && attempts < 50) {\n\t\t\t\t\tawait new Promise(resolve => setTimeout(resolve, 100));\n\t\t\t\t\tattempts++;\n\t\t\t\t}\n\t\t\t\t\n\t\t\t\tif (!window.sonrAuth) {\n\t\t\t\t\tthrow new Error('Failed to load Sonr authentication library');\n\t\t\t\t}\n\t\t\t\t\n\t\t\t\t// Check if WebAuthn is supported by the browser\n\t\t\t\tconst isSupported = window.sonrAuth.isWebAuthnSupported();\n\t\t\t\tif (!isSupported) {\n\t\t\t\t\tthrow new Error('WebAuthn is not supported in this browser. Please use a modern browser like Chrome, Firefox, Safari, or Edge.');\n\t\t\t\t}\n\t\t\t\t\n\t\t\t\t// Check if a platform authenticator is available\n\t\t\t\tconst isAvailable = await window.sonrAuth.isWebAuthnAvailable();\n\t\t\t\tif (!isAvailable) {\n\t\t\t\t\tupdateStatus('Setting up passkey support...', 'info');\n\t\t\t\t\tupdateInstructions('Your device supports passkeys but may need to be configured. You can still use a security key.');\n\t\t\t\t}\n\t\t\t\t\n\t\t\t\tupdateStatus('Initializing passkey registration...', 'info');\n\t\t\t\tupdateInstructions('Preparing your authentication request...');\n\t\t\t\t\n\t\t\t\t// Use the registerWithPasskey function from @sonr.io/es\n\t\t\t\tconst registrationOptions = {\n\t\t\t\t\temail: username.includes('@') ? username : undefined,\n\t\t\t\t\tphone: username.includes('+') ? username : undefined,\n\t\t\t\t\tusername: !username.includes('@') && !username.includes('+') ? username : undefined,\n\t\t\t\t\tdisplayName: username,\n\t\t\t\t\t// Override the endpoints to use local server\n\t\t\t\t\tbeginEndpoint: '/begin-register',\n\t\t\t\t\tfinishEndpoint: '/finish-register'\n\t\t\t\t};\n\t\t\t\t\n\t\t\t\tconsole.log('Registration options:', registrationOptions);\n\t\t\t\tconsole.log('API URL:', API_URL);\n\t\t\t\t\n\t\t\t\tupdateStatus('Please interact with your authenticator...', 'processing');\n\t\t\t\tupdateInstructions('Touch your security key or use biometric authentication when prompted.');\n\t\t\t\t\n\t\t\t\t// Perform registration using the SDK\n\t\t\t\tconsole.log('Calling registerWithPasskey...');\n\t\t\t\tconst result = await window.sonrAuth.registerWithPasskey(API_URL, registrationOptions);\n\t\t\t\tconsole.log('Registration result:', result);\n\t\t\t\t\n\t\t\t\t// Clear the countdown timer\n\t\t\t\tclearInterval(countdownInterval);\n\t\t\t\t\n\t\t\t\tif (result.success) {\n\t\t\t\t\tupdateStatus('Registration successful!', 'success');\n\t\t\t\t\tupdateInstructions('Your passkey has been registered. DID: ' + (result.did || 'Created') + '. You can now close this window and return to the CLI.');\n\t\t\t\t\tupdateTimeout(0);\n\t\t\t\t\t\n\t\t\t\t\t// Send success signal to CLI if needed\n\t\t\t\t\tif (result.did) {\n\t\t\t\t\t\t// Store DID in sessionStorage for potential retrieval\n\t\t\t\t\t\tsessionStorage.setItem('sonr_did', result.did);\n\t\t\t\t\t}\n\t\t\t\t} else {\n\t\t\t\t\tthrow new Error(result.error || 'Registration failed');\n\t\t\t\t}\n\t\t\t\t\n\t\t\t} catch (error) {\n\t\t\t\t// Clear the countdown timer\n\t\t\t\tclearInterval(countdownInterval);\n\t\t\t\t\n\t\t\t\tconsole.error('Registration failed:', error);\n\t\t\t\t\n\t\t\t\t// Provide more specific error messages\n\t\t\t\tlet errorMessage = error.message;\n\t\t\t\tif (error.name === 'NotAllowedError') {\n\t\t\t\t\terrorMessage = 'Registration was cancelled or not allowed';\n\t\t\t\t} else if (error.name === 'InvalidStateError') {\n\t\t\t\t\terrorMessage = 'An authenticator is already registered';\n\t\t\t\t} else if (error.name === 'NotSupportedError') {\n\t\t\t\t\terrorMessage = 'This authenticator is not supported';\n\t\t\t\t}\n\t\t\t\t\n\t\t\t\tupdateStatus('Registration failed', 'error');\n\t\t\t\tupdateInstructions(errorMessage);\n\t\t\t\tupdateTimeout(0);\n\t\t\t}\n\t\t}\n\n\t\t// Start registration when page loads\n\t\twindow.addEventListener('load', () => {\n\t\t\t// Add a small delay to ensure all resources are loaded\n\t\t\tsetTimeout(startRegistration, 500);\n\t\t});\n\t</script>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

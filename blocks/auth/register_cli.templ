@@ -1,112 +1,292 @@
 package auth
 
 import (
-	"github.com/go-sonr/ui/components/button"
+	"github.com/go-sonr/ui/components/alert"
+	"github.com/go-sonr/ui/components/badge"
 	"github.com/go-sonr/ui/components/card"
-	"github.com/go-sonr/ui/components/checkbox"
-	"github.com/go-sonr/ui/components/form"
-	"github.com/go-sonr/ui/components/icon"
-	"github.com/go-sonr/ui/components/input"
+	"github.com/go-sonr/ui/components/progress"
 )
 
-templ RegisterCLI() {
-	<div class="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
-		<div class="flex flex-col w-full max-w-sm flex-col items-center justify-center space-y-8">
-			<div class="flex items-center justify-center gap-2">
-				@icon.Layers(icon.Props{
-					Size: 20,
-				})
-				<h1 class="text-2xl font-semibold tracking-tight">
-					Acme Inc
-				</h1>
-			</div>
-			@card.Card() {
-				@card.Header() {
-					@card.Title() {
-						Create an account
-					}
-					@card.Description() {
-						Enter your details to create your account
-					}
-				}
-				@card.Content(card.ContentProps{
-					Class: "space-y-4",
+type RegisterCLIProps struct {
+	Username string
+	RPID     string
+	RPName   string
+}
+
+templ RegisterCLI(props RegisterCLIProps) {
+	<style>
+		:root {
+			--sonr-primary: #17c2ff;
+			--sonr-primary-hover: #0ea5e9;
+			--sonr-primary-glow: rgba(23, 194, 255, 0.3);
+		}
+		
+		body {
+			background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+		}
+		
+		.glow {
+			box-shadow: 0 0 20px var(--sonr-primary-glow);
+		}
+		
+		.pulse-primary {
+			animation: pulse-primary 2s ease-in-out infinite;
+		}
+		
+		@keyframes pulse-primary {
+			0%, 100% { opacity: 1; }
+			50% { opacity: 0.6; }
+		}
+	</style>
+	
+	<div class="min-h-screen flex items-center justify-center bg-slate-900 text-white font-sans p-4">
+		<div class="max-w-md w-full">
+			@card.Card(card.Props{
+				Class: "bg-slate-800 border-slate-700 shadow-2xl glow",
+			}) {
+				@card.Header(card.HeaderProps{
+					Class: "text-center space-y-4",
 				}) {
-					@form.Item() {
-						@form.Label(form.LabelProps{
-							For: "sign-up-001-first-name",
-						}) {
-							First name
-						}
-						@input.Input(input.Props{
-							ID:          "sign-up-001-first-name",
-							Placeholder: "Max",
-						})
-					}
-					@form.Item() {
-						@form.Label(form.LabelProps{
-							For: "sign-up-001-last-name",
-						}) {
-							Last name
-						}
-						@input.Input(input.Props{
-							ID:          "sign-up-001-last-name",
-							Placeholder: "Mustermann",
-						})
-					}
-					@form.Item() {
-						@form.Label(form.LabelProps{
-							For: "sign-up-001-email",
-						}) {
-							Email
-						}
-						@input.Input(input.Props{
-							ID:          "sign-up-001-email",
-							Type:        "email",
-							Placeholder: "name@example.com",
-						})
-					}
-					@form.Item() {
-						@form.Label(form.LabelProps{
-							For: "sign-up-001-password",
-						}) {
-							Password
-						}
-						@input.Input(input.Props{
-							ID:          "sign-up-001-password",
-							Type:        "password",
-							Placeholder: "••••••••",
-						})
-					}
-					@form.ItemFlex() {
-						@checkbox.Checkbox(checkbox.Props{
-							ID: "sign-up-001-terms",
-						})
-						@form.Label(form.LabelProps{
-							For: "sign-up-001-terms",
-						}) {
-							I agree to the 
-							<a href="#" class="text-primary underline underline-offset-4 hover:text-primary/80">
-								terms and conditions
-							</a>
-						}
-					}
-				}
-				@card.Footer() {
-					@button.Button(button.Props{
-						Class: "w-full",
-						Type:  button.TypeSubmit,
+					@card.Title(card.TitleProps{
+						Class: "text-3xl font-bold text-white",
 					}) {
-						Create account
+						Sonr Registration
 					}
+					<div class="h-1 bg-gradient-to-r from-[#17c2ff] to-[#0ea5e9] rounded-full mx-auto w-24"></div>
+				}
+				
+				@card.Content(card.ContentProps{
+					Class: "space-y-6",
+				}) {
+					<!-- User Info Section -->
+					<div class="bg-slate-700 rounded-lg p-4 border border-slate-600">
+						<p class="text-slate-300 text-sm font-medium mb-1">Registering User</p>
+						<p id="username-display" class="text-[#17c2ff] text-xl font-bold">{ props.Username }</p>
+					</div>
+					
+					<!-- Status Section -->
+					<div class="space-y-4">
+						@alert.Alert(alert.Props{
+							Class: "bg-slate-700 border-slate-600",
+						}) {
+							<div id="status" class="text-[#17c2ff] font-semibold text-lg pulse-primary">
+								Initializing WebAuthn registration...
+							</div>
+						}
+						
+						<div id="instructions" class="text-slate-300 text-sm leading-relaxed text-center">
+							Please follow your browser and authenticator prompts.
+						</div>
+						
+						<!-- Progress Indicator -->
+						@progress.Progress(progress.Props{
+							Value: 0,
+							Class: "h-2",
+							ID:    "progress",
+						})
+						
+						<!-- Timeout Display -->
+						<div class="text-center">
+							@badge.Badge(badge.Props{
+								Variant: "outline",
+								Class:   "text-slate-400 text-xs font-mono",
+							}) {
+								<span id="timeout"></span>
+							}
+						</div>
+					</div>
 				}
 			}
-			<div class="text-center text-sm">
-				Already have an account?
-				<a href="#" class="font-medium text-primary hover:text-primary/80">
-					Sign in
-				</a>
-			</div>
 		</div>
 	</div>
+	
+	<!-- Load @sonr.io/es package from CDN -->
+	<script type="module">
+		import * as SonrES from 'https://cdn.jsdelivr.net/npm/@sonr.io/es@0.0.8/+esm';
+		
+		// Make functions available globally
+		window.sonrAuth = {
+			registerWithPasskey: SonrES.registerWithPasskey,
+			isWebAuthnAvailable: SonrES.isWebAuthnAvailable,
+			isWebAuthnSupported: SonrES.isWebAuthnSupported
+		};
+	</script>
+	
+	<script>
+		// Support both username and identifier parameters
+		const urlParams = new URLSearchParams(window.location.search);
+		const username = urlParams.get('identifier') || urlParams.get('username') || '{ props.Username }';
+		const rpId = '{ props.RPID }';
+		const API_URL = window.location.origin; // Use current origin as API URL
+		
+		// Update the username display if it's from URL params
+		if (urlParams.get('identifier') || urlParams.get('username')) {
+			document.getElementById('username-display').textContent = username;
+		}
+		
+		function updateStatus(message, type = 'info') {
+			const statusEl = document.getElementById('status');
+			const progressEl = document.getElementById('progress');
+			
+			statusEl.textContent = message;
+			
+			// Remove all existing classes and add new ones based on type
+			statusEl.className = 'font-semibold text-lg';
+			
+			switch(type) {
+				case 'success':
+					statusEl.className += ' text-green-400';
+					statusEl.classList.remove('pulse-primary');
+					if (progressEl) {
+						progressEl.style.setProperty('--progress-value', '100');
+						progressEl.querySelector('.bg-primary')?.classList.add('bg-green-400');
+					}
+					break;
+				case 'error':
+					statusEl.className += ' text-red-400';
+					statusEl.classList.remove('pulse-primary');
+					if (progressEl) {
+						progressEl.style.setProperty('--progress-value', '100');
+						progressEl.querySelector('.bg-primary')?.classList.add('bg-red-400');
+					}
+					break;
+				case 'processing':
+					statusEl.className += ' text-[#17c2ff] pulse-primary';
+					if (progressEl) {
+						progressEl.style.setProperty('--progress-value', '75');
+					}
+					break;
+				default: // info
+					statusEl.className += ' text-[#17c2ff] pulse-primary';
+					if (progressEl) {
+						progressEl.style.setProperty('--progress-value', '25');
+					}
+			}
+		}
+		
+		function updateInstructions(message) {
+			const instructionsEl = document.getElementById('instructions');
+			instructionsEl.textContent = message;
+			instructionsEl.className = 'text-slate-300 text-sm leading-relaxed text-center';
+		}
+		
+		function updateTimeout(seconds) {
+			const timeoutEl = document.getElementById('timeout');
+			if (seconds > 0) {
+				timeoutEl.textContent = 'Timeout in ' + seconds + 's';
+			} else {
+				timeoutEl.textContent = 'Registration timed out';
+				timeoutEl.parentElement.classList.remove('text-slate-400');
+				timeoutEl.parentElement.classList.add('text-red-400');
+			}
+		}
+		
+		// Start countdown timer
+		let timeoutSeconds = 30;
+		const countdownInterval = setInterval(() => {
+			updateTimeout(timeoutSeconds);
+			timeoutSeconds--;
+			if (timeoutSeconds < 0) {
+				clearInterval(countdownInterval);
+				updateStatus('Registration timed out', 'error');
+				updateInstructions('Please return to the CLI and try again.');
+			}
+		}, 1000);
+
+		async function startRegistration() {
+			try {
+				// Wait for the ES module to load
+				let attempts = 0;
+				while (!window.sonrAuth && attempts < 50) {
+					await new Promise(resolve => setTimeout(resolve, 100));
+					attempts++;
+				}
+				
+				if (!window.sonrAuth) {
+					throw new Error('Failed to load Sonr authentication library');
+				}
+				
+				// Check if WebAuthn is supported by the browser
+				const isSupported = window.sonrAuth.isWebAuthnSupported();
+				if (!isSupported) {
+					throw new Error('WebAuthn is not supported in this browser. Please use a modern browser like Chrome, Firefox, Safari, or Edge.');
+				}
+				
+				// Check if a platform authenticator is available
+				const isAvailable = await window.sonrAuth.isWebAuthnAvailable();
+				if (!isAvailable) {
+					updateStatus('Setting up passkey support...', 'info');
+					updateInstructions('Your device supports passkeys but may need to be configured. You can still use a security key.');
+				}
+				
+				updateStatus('Initializing passkey registration...', 'info');
+				updateInstructions('Preparing your authentication request...');
+				
+				// Use the registerWithPasskey function from @sonr.io/es
+				const registrationOptions = {
+					email: username.includes('@') ? username : undefined,
+					phone: username.includes('+') ? username : undefined,
+					username: !username.includes('@') && !username.includes('+') ? username : undefined,
+					displayName: username,
+					// Override the endpoints to use local server
+					beginEndpoint: '/begin-register',
+					finishEndpoint: '/finish-register'
+				};
+				
+				console.log('Registration options:', registrationOptions);
+				console.log('API URL:', API_URL);
+				
+				updateStatus('Please interact with your authenticator...', 'processing');
+				updateInstructions('Touch your security key or use biometric authentication when prompted.');
+				
+				// Perform registration using the SDK
+				console.log('Calling registerWithPasskey...');
+				const result = await window.sonrAuth.registerWithPasskey(API_URL, registrationOptions);
+				console.log('Registration result:', result);
+				
+				// Clear the countdown timer
+				clearInterval(countdownInterval);
+				
+				if (result.success) {
+					updateStatus('Registration successful!', 'success');
+					updateInstructions('Your passkey has been registered. DID: ' + (result.did || 'Created') + '. You can now close this window and return to the CLI.');
+					updateTimeout(0);
+					
+					// Send success signal to CLI if needed
+					if (result.did) {
+						// Store DID in sessionStorage for potential retrieval
+						sessionStorage.setItem('sonr_did', result.did);
+					}
+				} else {
+					throw new Error(result.error || 'Registration failed');
+				}
+				
+			} catch (error) {
+				// Clear the countdown timer
+				clearInterval(countdownInterval);
+				
+				console.error('Registration failed:', error);
+				
+				// Provide more specific error messages
+				let errorMessage = error.message;
+				if (error.name === 'NotAllowedError') {
+					errorMessage = 'Registration was cancelled or not allowed';
+				} else if (error.name === 'InvalidStateError') {
+					errorMessage = 'An authenticator is already registered';
+				} else if (error.name === 'NotSupportedError') {
+					errorMessage = 'This authenticator is not supported';
+				}
+				
+				updateStatus('Registration failed', 'error');
+				updateInstructions(errorMessage);
+				updateTimeout(0);
+			}
+		}
+
+		// Start registration when page loads
+		window.addEventListener('load', () => {
+			// Add a small delay to ensure all resources are loaded
+			setTimeout(startRegistration, 500);
+		});
+	</script>
 }

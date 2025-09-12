@@ -13,12 +13,42 @@ UI Library built for the Sonr ecosystem. It leverages Templ, TailwindCSS 4, and 
 - **Templ**: Type-safe Go HTML template engine
 - **HTTP Middleware**: Built-in asset serving for JavaScript and CSS
 - **Zero Configuration**: CDN-based dependencies, no local build required
+- **Integrated Build Process**: Automated TailwindCSS and Templ generation
+- **Flexible Asset Serving**: Embedded or local filesystem modes via build tags
+- **go:generate Support**: Standard Go toolchain integration
 
 ## Installation
 
 ```bash
 go get github.com/go-sonr/ui
 ```
+
+### Build Dependencies (Optional)
+
+If you're contributing or need to regenerate assets:
+
+```bash
+# Install build tools
+go run github.com/go-sonr/ui/build.go -install-deps
+
+# Or if you have the module cloned
+cd $GOPATH/src/github.com/go-sonr/ui
+make install-deps
+```
+
+## Using as a Module Dependency
+
+When using this module as a dependency in your project, all assets are pre-built and embedded. No additional build steps are required:
+
+```go
+import "github.com/go-sonr/ui"
+```
+
+The module includes:
+- Pre-generated Go code from Templ templates
+- Minified CSS from TailwindCSS
+- Embedded JavaScript assets
+- All components ready to use
 
 ## Quick Start
 
@@ -295,18 +325,44 @@ These are automatically included when using the `layout.Head()` component.
 
 ### Building
 
+The build process integrates TailwindCSS CLI and Templ generation:
+
 ```bash
-# Build the module
-make build
+# Complete build (TailwindCSS + Templ + Go)
+go run build.go
+# or
+make all
+# or
+go generate ./...
 
-# Generate CSS from Tailwind
-make css
+# Build with local assets (not embedded)
+go build -tags localassets ./...
+# or
+make build-local
 
-# Watch CSS files for changes
-make css-watch
+# Development with watch mode
+go run build.go -watch
+# or
+make dev
+```
 
-# Build examples
-make examples
+### Build Options
+
+```bash
+# Install dependencies only
+go run build.go -install-deps
+
+# Generate CSS only
+go run build.go -css-only
+
+# Generate Templ files only
+go run build.go -templ-only
+
+# Skip specific steps
+go run build.go -skip-css -skip-templ
+
+# Verbose output
+go run build.go -v
 ```
 
 ### Component Management
@@ -320,6 +376,11 @@ templui add button card dialog
 
 # List available components
 templui list
+
+# After adding components, regenerate
+go generate ./...
+# or
+make generate
 ```
 
 ### Testing Examples
@@ -335,6 +396,27 @@ make examples-run
 make examples-clean
 ```
 
+### CI/CD Integration
+
+For automated builds in CI/CD pipelines:
+
+```yaml
+# GitHub Actions
+- name: Setup and Build
+  run: |
+    go run build.go -install-deps
+    go generate ./...
+    go build ./...
+    go test ./...
+```
+
+```bash
+# Docker
+RUN go run build.go -install-deps && \
+    go run build.go && \
+    go build -o app
+```
+
 ## Custom Asset Serving
 
 If you need to serve assets from a different path:
@@ -344,6 +426,23 @@ If you need to serve assets from a different path:
 mux.Handle("/static/", http.StripPrefix("/static", ui.StaticHandler()))
 ```
 
+### Local Assets Mode
+
+For development or custom deployments, you can build with local assets instead of embedding:
+
+```bash
+# Build with local assets
+go build -tags localassets ./...
+
+# Set custom assets path
+export UI_ASSETS_PATH=/path/to/ui/assets
+
+# Use local vendor files (no CDN)
+export UI_USE_LOCAL_VENDOR=true
+```
+
+See [BUILD_TAGS.md](BUILD_TAGS.md) for detailed information about build tags and [BUILD.md](BUILD.md) for complete build process documentation.
+
 ## Development Tips
 
 1. **Always include `layout.Head()`** in your templates - it loads all necessary dependencies
@@ -351,6 +450,8 @@ mux.Handle("/static/", http.StripPrefix("/static", ui.StaticHandler()))
 3. **Apply security headers** in production environments
 4. **Enable caching** for better performance with `CacheControl()`
 5. **Use preload headers** to improve initial page load times
+6. **Run `go generate ./...`** after modifying `.templ` files or CSS
+7. **Use `-tags localassets`** for development to avoid rebuilding for asset changes
 
 ## Troubleshooting
 

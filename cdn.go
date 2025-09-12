@@ -1,3 +1,6 @@
+//go:build !localassets
+// +build !localassets
+
 // Package ui provides a set of UI components for Go web applications
 package ui
 
@@ -112,4 +115,3 @@ func CacheControl(maxAge int) func(http.Handler) http.Handler {
 		})
 	}
 }
-

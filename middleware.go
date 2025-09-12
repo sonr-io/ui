@@ -1,3 +1,6 @@
+//go:build !localassets
+// +build !localassets
+
 package ui
 
 import (

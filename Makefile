@@ -1,12 +1,12 @@
-.PHONY: all generate format lint tidy clean build css css-watch examples examples-run examples-clean templ server tailwind dev help
+.PHONY: all generate format lint tidy clean build css css-watch examples examples-run examples-clean templ server tailwind dev help install-deps
 
-# Default target
-all: format generate css tidy lint build examples
+# Default target - use Go build script
+all: 
+	@go run build.go
 
 # Generate Go code from templ files
 generate:
-	@echo "Generating templ files..."
-	@templ generate
+	@go run build.go -templ-only
 
 # Format both Go and templ files
 format:
@@ -29,21 +29,15 @@ tidy:
 
 # Build the module
 build:
-	@echo "Building module..."
-	@go build ./...
+	@go run build.go -skip-css -skip-templ
 
 # Generate CSS from Tailwind input file
 css:
-	@echo "Generating CSS with Tailwind..."
-	@npx tailwindcss -i ./assets/css/input.css -o ./assets/css/output.css --minify 2>/dev/null || \
-		(echo "Installing Tailwind CSS..." && \
-		npm install -D tailwindcss && \
-		npx tailwindcss -i ./assets/css/input.css -o ./assets/css/output.css --minify)
+	@go run build.go -css-only
 
 # Watch CSS files for changes and regenerate
 css-watch:
-	@echo "Watching CSS files for changes..."
-	@npx tailwindcss -i ./assets/css/input.css -o ./assets/css/output.css --watch
+	@go run build.go -css-only -watch
 
 # Clean generated files
 clean:
@@ -112,6 +106,14 @@ dev:
 	@echo "Go server: http://localhost:8090"
 	@$(MAKE) -j3 tailwind templ server
 
+# Install build dependencies
+install-deps:
+	@go run build.go -install-deps
+
+# Build with local assets tag
+build-local:
+	@go run build.go -local-assets
+
 # Help target
 help:
 	@echo "Available targets:"
@@ -135,3 +137,5 @@ help:
 	@echo "  make list         - List available templui components"
 	@echo "  make update-templ - Update templ to latest version"
 	@echo "  make help         - Show this help message"
+	@echo "  make install-deps - Install build dependencies (templ, tailwindcss, templui)"
+	@echo "  make build-local  - Build with localassets tag for filesystem serving"

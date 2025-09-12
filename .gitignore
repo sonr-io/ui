@@ -21,3 +21,9 @@ yarn-error.log*
 *.sw?
 CLAUDE*
 .claude
+
+# Local vendor assets (downloaded CDN resources)
+assets/vendor/
+
+# Build tools binaries
+bin/
