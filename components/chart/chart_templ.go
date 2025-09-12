@@ -10,7 +10,11 @@ package chart
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
-import "github.com/go-sonr/ui/utils"
+import (
+	"encoding/json"
+	"github.com/go-sonr/ui/utils"
+	"time"
+)
 
 type Variant string
 
@@ -20,6 +24,8 @@ const (
 	VariantPie      Variant = "pie"
 	VariantDoughnut Variant = "doughnut"
 	VariantRadar    Variant = "radar"
+	VariantArea     Variant = "area"
+	VariantCandle   Variant = "candle"
 )
 
 type Dataset struct {
@@ -31,6 +37,33 @@ type Dataset struct {
 	Tension         float64     `json:"tension,omitempty"`
 	Fill            bool        `json:"fill,omitempty"`
 	Stepped         bool        `json:"stepped,omitempty"`
+}
+
+// Data types from charts package for better styling
+type DateValue struct {
+	Date  string
+	Value int
+}
+
+type KeyValue struct {
+	Key   string
+	Value int
+	Color string
+}
+
+type CategoryValue struct {
+	Category  string
+	Value     int
+	ColorFrom string
+	ColorTo   string
+}
+
+type CandleData struct {
+	Open  float64
+	Close float64
+	High  float64
+	Low   float64
+	Date  time.Time
 }
 
 type Options struct {
@@ -107,7 +140,7 @@ func Chart(props ...Props) templ.Component {
 		canvasId := p.ID + "-canvas"
 		dataId := p.ID + "-data"
 		var templ_7745c5c3_Var2 = []any{utils.TwMerge(
-			"chart-container relative",
+			"chart-container @container relative rounded-lg border bg-card p-6 shadow-sm",
 			p.Class),
 		}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var2...)
@@ -121,7 +154,7 @@ func Chart(props ...Props) templ.Component {
 		var templ_7745c5c3_Var3 string
 		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/chart/chart.templ`, Line: 81, Col: 11}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/chart/chart.templ`, Line: 114, Col: 11}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 		if templ_7745c5c3_Err != nil {
@@ -155,7 +188,7 @@ func Chart(props ...Props) templ.Component {
 		var templ_7745c5c3_Var5 string
 		templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(canvasId)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/chart/chart.templ`, Line: 89, Col: 23}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/chart/chart.templ`, Line: 122, Col: 23}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 		if templ_7745c5c3_Err != nil {
@@ -168,13 +201,13 @@ func Chart(props ...Props) templ.Component {
 		var templ_7745c5c3_Var6 string
 		templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(dataId)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/chart/chart.templ`, Line: 89, Col: 52}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/chart/chart.templ`, Line: 122, Col: 52}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "\"></canvas></div>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "\" class=\"w-full\"></canvas></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -199,6 +232,34 @@ func Chart(props ...Props) templ.Component {
 		}
 		return nil
 	})
+}
+
+// Helper function to format candle data for JavaScript
+func formatCandleDataForJS(data []CandleData) string {
+	type jsData struct {
+		Date  string  `json:"date"`
+		Open  float64 `json:"open"`
+		Close float64 `json:"close"`
+		High  float64 `json:"high"`
+		Low   float64 `json:"low"`
+	}
+
+	jsDataArray := make([]jsData, len(data))
+	for i, d := range data {
+		jsDataArray[i] = jsData{
+			Date:  d.Date.Format(time.RFC3339),
+			Open:  d.Open,
+			Close: d.Close,
+			High:  d.High,
+			Low:   d.Low,
+		}
+	}
+
+	jsonBytes, err := json.Marshal(jsDataArray)
+	if err != nil {
+		return "[]"
+	}
+	return string(jsonBytes)
 }
 
 func Script() templ.Component {
@@ -229,7 +290,7 @@ func Script() templ.Component {
 		var templ_7745c5c3_Var8 string
 		templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(templ.GetNonce(ctx))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/chart/chart.templ`, Line: 111, Col: 42}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/chart/chart.templ`, Line: 172, Col: 42}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 		if templ_7745c5c3_Err != nil {

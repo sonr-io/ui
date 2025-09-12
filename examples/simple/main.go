@@ -29,4 +29,3 @@ func main() {
 	log.Println("Server starting on http://localhost:8080")
 	log.Fatal(http.ListenAndServe(":8080", handler))
 }
-

@@ -1,10 +1,10 @@
 package main
 
 import (
-	ui "github.com/go-sonr/ui/layout"
 	"github.com/go-sonr/ui/components/button"
 	"github.com/go-sonr/ui/components/card"
 	"github.com/go-sonr/ui/components/input"
+	ui "github.com/go-sonr/ui/layout"
 )
 
 templ HomePage() {
@@ -30,7 +30,7 @@ templ HomePage() {
 								Name:        "name",
 							})
 							@input.Input(input.Props{
-								Type:        input.TypeEmail, 
+								Type:        input.TypeEmail,
 								Placeholder: "Enter your email",
 								Name:        "email",
 							})
