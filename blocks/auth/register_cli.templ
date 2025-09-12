@@ -1,0 +1,112 @@
+package auth
+
+import (
+	"github.com/go-sonr/ui/components/button"
+	"github.com/go-sonr/ui/components/card"
+	"github.com/go-sonr/ui/components/checkbox"
+	"github.com/go-sonr/ui/components/form"
+	"github.com/go-sonr/ui/components/icon"
+	"github.com/go-sonr/ui/components/input"
+)
+
+templ RegisterCLI() {
+	<div class="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
+		<div class="flex flex-col w-full max-w-sm flex-col items-center justify-center space-y-8">
+			<div class="flex items-center justify-center gap-2">
+				@icon.Layers(icon.Props{
+					Size: 20,
+				})
+				<h1 class="text-2xl font-semibold tracking-tight">
+					Acme Inc
+				</h1>
+			</div>
+			@card.Card() {
+				@card.Header() {
+					@card.Title() {
+						Create an account
+					}
+					@card.Description() {
+						Enter your details to create your account
+					}
+				}
+				@card.Content(card.ContentProps{
+					Class: "space-y-4",
+				}) {
+					@form.Item() {
+						@form.Label(form.LabelProps{
+							For: "sign-up-001-first-name",
+						}) {
+							First name
+						}
+						@input.Input(input.Props{
+							ID:          "sign-up-001-first-name",
+							Placeholder: "Max",
+						})
+					}
+					@form.Item() {
+						@form.Label(form.LabelProps{
+							For: "sign-up-001-last-name",
+						}) {
+							Last name
+						}
+						@input.Input(input.Props{
+							ID:          "sign-up-001-last-name",
+							Placeholder: "Mustermann",
+						})
+					}
+					@form.Item() {
+						@form.Label(form.LabelProps{
+							For: "sign-up-001-email",
+						}) {
+							Email
+						}
+						@input.Input(input.Props{
+							ID:          "sign-up-001-email",
+							Type:        "email",
+							Placeholder: "name@example.com",
+						})
+					}
+					@form.Item() {
+						@form.Label(form.LabelProps{
+							For: "sign-up-001-password",
+						}) {
+							Password
+						}
+						@input.Input(input.Props{
+							ID:          "sign-up-001-password",
+							Type:        "password",
+							Placeholder: "••••••••",
+						})
+					}
+					@form.ItemFlex() {
+						@checkbox.Checkbox(checkbox.Props{
+							ID: "sign-up-001-terms",
+						})
+						@form.Label(form.LabelProps{
+							For: "sign-up-001-terms",
+						}) {
+							I agree to the 
+							<a href="#" class="text-primary underline underline-offset-4 hover:text-primary/80">
+								terms and conditions
+							</a>
+						}
+					}
+				}
+				@card.Footer() {
+					@button.Button(button.Props{
+						Class: "w-full",
+						Type:  button.TypeSubmit,
+					}) {
+						Create account
+					}
+				}
+			}
+			<div class="text-center text-sm">
+				Already have an account?
+				<a href="#" class="font-medium text-primary hover:text-primary/80">
+					Sign in
+				</a>
+			</div>
+		</div>
+	</div>
+}

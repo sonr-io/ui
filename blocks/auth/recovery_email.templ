@@ -1,0 +1,75 @@
+package auth
+
+import (
+	"github.com/go-sonr/ui/components/button"
+	"github.com/go-sonr/ui/components/card"
+	"github.com/go-sonr/ui/components/form"
+	"github.com/go-sonr/ui/components/icon"
+	"github.com/go-sonr/ui/components/input"
+)
+
+templ RecoveryEmail() {
+	<div class="flex min-h-svh w-full flex-col items-center justify-center bg-muted/15 p-6 md:p-10">
+		<div class="mb-8 flex flex-col items-center space-y-4">
+			<div class="flex h-12 w-12 items-center justify-center rounded-full bg-primary">
+				@icon.Layers(icon.Props{
+					Size:  24,
+					Class: "text-primary-foreground",
+				})
+			</div>
+			<div class="flex flex-col items-center space-y-1 text-center">
+				<h1 class="text-2xl font-bold">Acme Inc</h1>
+				<p class="text-sm text-muted-foreground">Modern solutions for modern problems</p>
+			</div>
+		</div>
+		@card.Card(card.Props{
+			Class: "w-full max-w-md",
+		}) {
+			@card.Header() {
+				@card.Title() {
+					<div class="flex items-center gap-2">
+						@icon.KeyRound(icon.Props{
+							Size: 16,
+						})
+						<span>Forgot your password?</span>
+					</div>
+				}
+				@card.Description() {
+					Enter your email address and we'll send you a link to reset your password.
+				}
+			}
+			@card.Content() {
+				@form.Item() {
+					@form.Label(form.LabelProps{
+						For: "forgot-password-002-email",
+					}) {
+						Email
+					}
+					@input.Input(input.Props{
+						ID:          "forgot-password-002-email",
+						Type:        "email",
+						Placeholder: "name@example.com",
+					})
+				}
+			}
+			@card.Footer(card.FooterProps{
+				Class: "flex flex-col gap-4",
+			}) {
+				@button.Button(button.Props{
+					Class: "w-full",
+					Type:  button.TypeSubmit,
+				}) {
+					Send Reset Link
+				}
+				<div class="text-center text-sm">
+					<a href="#" class="text-sm text-primary hover:text-primary/80">
+						← Back to sign in
+					</a>
+				</div>
+			}
+		}
+		<div class="mt-8 text-center text-sm text-muted-foreground">
+			Need help? <a href="#" class="font-medium text-primary hover:text-primary/80">Contact support</a>
+		</div>
+	</div>
+}
